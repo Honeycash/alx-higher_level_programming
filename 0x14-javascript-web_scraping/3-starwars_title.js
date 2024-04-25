@@ -1,14 +1,21 @@
 #!/usr/bin/node
 
-// Import the 'request' module.
+// scraping the star wars api
+
 const request = require('request');
+const url = 'https://swapi-api.alx-tools.com/api/films/';
 
-// Construct the URL for the specific Star Wars film
-const url = 'https://swapi-api.alx-tools.com/api/films/' + process.argv[2];
+if (process.argv.length < 3) {
+  console.error('provide a movie id');
+  process.exit(1);
+}
+const movieId = url + process.argv[2];
 
-// Use the 'request' module to perform an HTTP GET request to the constructed URL.
-request(url, function (error, response, body) {
-  // log title if successful, log error if not.
-  console.log(error || JSON.parse(body).title);
+request(movieId, (error, reponse, body) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  const data = JSON.parse(body);
+  console.log(data.title);
 });
-
